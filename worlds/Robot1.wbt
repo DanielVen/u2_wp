@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.03026389201193155 -0.9974311544872596 -0.06492448612428434 4.012013337462635
-  position 0.30592981412456444 0.16928282070391137 -0.34781147748364366
+  orientation 0.03945020290237699 -0.988094490122031 -0.14870427055550478 3.654325483590283
+  position 0.28146164819242675 0.20920496146895806 -0.4361812181190263
 }
 TexturedBackground {
 }
@@ -12,8 +12,36 @@ TexturedBackgroundLight {
 Floor {
 }
 Robot {
-  translation 0 0.035 0
+  translation 0 0.1 0
+  rotation 1 0 0 0
   children [
+    DEF GR_BODY Group {
+      children [
+        DEF ROBOT_BODY Shape {
+          appearance PBRAppearance {
+            baseColor 0.45098039215686275 0.8235294117647058 0.08627450980392157
+          }
+          geometry DEF G_BODY Box {
+            size 0.25 0.07 0.1
+          }
+        }
+        Transform {
+          translation 0.11 -0.05 0
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.9333333333333333 0.9333333333333333 0.9254901960784314
+                roughness 1
+                metalness 0
+              }
+              geometry Sphere {
+                radius 0.015
+              }
+            }
+          ]
+        }
+      ]
+    }
     DEF ROBOT_BODY Shape {
       appearance PBRAppearance {
         baseColor 0.45098039215686275 0.8235294117647058 0.08627450980392157
@@ -47,25 +75,34 @@ Robot {
               radius 0.075
             }
           }
-          HingeJoint {
-            endPoint DEF WHEEL2 Solid {
-              translation 0 -0.12 0
-              children [
-                Shape {
-                  appearance USE A_WHEEL1
-                  geometry USE G_WHEEL
-                }
-              ]
-            }
-          }
         ]
         boundingObject USE G_WHEEL
         physics Physics {
         }
       }
     }
+    DEF WHEEL_2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+        anchor -0.05 0 -0.06
+      }
+      endPoint Solid {
+        translation -0.05 0 -0.06
+        rotation -1 0 0 1.5708003061004252
+        children [
+          Shape {
+            appearance USE A_WHEEL1
+            geometry USE G_WHEEL
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE G_WHEEL
+        physics Physics {
+        }
+      }
+    }
   ]
-  boundingObject USE G_BODY
+  boundingObject USE GR_BODY
   physics Physics {
   }
   controller "Robot1"
