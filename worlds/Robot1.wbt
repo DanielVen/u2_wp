@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9146827397731343 0.3935292723436479 0.09214226701026904 5.781981545982214
-  position -0.0858349983643738 0.287339988063618 0.5375676439960233
+  orientation 0.03026389201193155 -0.9974311544872596 -0.06492448612428434 4.012013337462635
+  position 0.30592981412456444 0.16928282070391137 -0.34781147748364366
 }
 TexturedBackground {
 }
@@ -27,12 +27,17 @@ Robot {
         axis 0 0 1
         anchor -0.05 0 0.06
       }
+      device [
+        RotationalMotor {
+          name "motor_right"
+        }
+      ]
       endPoint DEF WHEEL1 Solid {
         translation -0.05 0 0.06
         rotation 1 0 0 1.5707996938995745
         children [
           Shape {
-            appearance PBRAppearance {
+            appearance DEF A_WHEEL1 PBRAppearance {
               baseColor 0 0 0
               roughness 1
               metalness 0
@@ -40,6 +45,17 @@ Robot {
             geometry DEF G_WHEEL Cylinder {
               height 0.02
               radius 0.075
+            }
+          }
+          HingeJoint {
+            endPoint DEF WHEEL2 Solid {
+              translation 0 -0.12 0
+              children [
+                Shape {
+                  appearance USE A_WHEEL1
+                  geometry USE G_WHEEL
+                }
+              ]
             }
           }
         ]
@@ -52,4 +68,5 @@ Robot {
   boundingObject USE G_BODY
   physics Physics {
   }
+  controller "Robot1"
 }
